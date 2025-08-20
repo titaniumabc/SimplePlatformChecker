@@ -37,7 +37,7 @@ namespace PlatformChecker
                 {
                     UpdateName(rig, "STEAM", "#640aff");
                 }
-                else if (concatStringOfCosmeticsAllowed.Contains("FIRST LOGIN") || rig.Creator.GetPlayerRef().CustomProperties.Count >= 2)
+                else if (rig.concatStringOfCosmeticsAllowed.Contains("FIRST LOGIN") || rig.Creator.GetPlayerRef().CustomProperties.Count >= 2)
                 {
                     UpdateName(rig, "PC", "#f700ca");
                 }
@@ -75,4 +75,5 @@ namespace PlatformChecker
         }
     }
 }
+
 
