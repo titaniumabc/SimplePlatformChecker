@@ -6,31 +6,18 @@ using HarmonyLib;
 
 namespace PlatformChecker
 {
-    internal class PluginInfo
-    {
-        public const string GUID = "com.titanium.gorillatag.platformchecker";
-        public const string Name = "PlatformChecker";
-        public const string Version = "1.0.0";
-    }
-    [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
+    [BepInPlugin("titanium.simpleplatformchecker", "SimplePlatformChecker", "1.0.1")]
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance = new Plugin();
-        float cooldown = 2f;
-        void FixedUpdate()
-        {
-            if (Time.time > cooldown)
-            {
-                RunChecks();
-                cooldown += 2f;
-            }
-        }
-
+        
+        void Update() => RunChecks();
+        
         void UpdateName(VRRig rig, string Key, string color)
         {
             rig.playerText1.text = rig.Creator.NickName.ToUpper();
             rig.playerText2.text = rig.Creator.NickName.ToUpper();
-            if (rig.fps < 55)
+            if (rig.fps <= 55)
             {
                 rig.playerText1.text += $"\nFPS: <color=#fc0000>{rig.fps.ToString()}</color>\n<color={color}>{Key}</color>";
                 rig.playerText2.text += $"\nFPS: {rig.fps.ToString()}\n{Key}";
@@ -46,17 +33,17 @@ namespace PlatformChecker
         {
             foreach (VRRig rig in GorillaParent.instance.vrrigs)
             {
-                if (rig.concatStringOfCosmeticsAllowed.Contains("first login"))
+                if (rig.concatStringOfCosmeticsAllowed.Contains("S. FIRST LOGIN"))
                 {
-                    UpdateName(rig, "STEAMVR", "#640aff");
+                    UpdateName(rig, "STEAM", "#640aff");
                 }
-                else if (rig.concatStringOfCosmeticsAllowed.Contains("game-purchase"))
+                else if (rig.concatStringOfCosmeticsAllowed.Contains("FIRST LOGIN") || rig.Creator.GetPlayerRef().CustomProperties.Count >= 2)
                 {
-                    UpdateName(rig, "OCULUS PCVR", "#f700ca");
+                    UpdateName(rig, "PC", "#f700ca");
                 }
                 else
                 {
-                    UpdateName(rig, "QUEST", "#00fff2");
+                    UpdateName(rig, "QUEST?", "#00fff2");
                 }
             }
         }
@@ -88,3 +75,5 @@ namespace PlatformChecker
         }
     }
 }
+
+
